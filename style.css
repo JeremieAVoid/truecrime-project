@@ -1,0 +1,362 @@
+:root {
+    --bg:          #0d0d0d;
+    --bg-card:     #141414;
+    --bg-card-2:   #1a1a1a;
+    --red:         #c0392b;
+    --red-light:   #e74c3c;
+    --gold:        #c9a84c;
+    --gold-dark:   #a07830;
+    --white:       #f0ece4;
+    --gray:        #888880;
+    --gray-light:  #555550;
+    --border:      rgba(192, 57, 43, 0.2);
+    --font-title:  'Playfair Display', Georgia, serif;
+    --font-body:   'Crimson Text', Georgia, serif;
+    --font-type:   'Special Elite', monospace;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 18px;
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+/* --- Header --- */
+.header {
+    position: relative;
+    text-align: center;
+    padding: 60px 24px 50px;
+    border-bottom: 1px solid var(--border);
+    background: radial-gradient(ellipse at top, #1a0505 0%, var(--bg) 70%);
+    overflow: hidden;
+}
+
+.header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(192, 57, 43, 0.03) 2px,
+        rgba(192, 57, 43, 0.03) 4px
+    );
+    pointer-events: none;
+}
+
+.header-inner {
+    position: relative;
+    z-index: 1;
+}
+
+.logo-full {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid var(--red);
+    margin-bottom: 20px;
+    filter: grayscale(30%);
+}
+
+.site-title {
+    font-family: var(--font-title);
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: var(--white);
+    text-shadow: 0 0 40px rgba(192, 57, 43, 0.6);
+    line-height: 1;
+    margin-bottom: 12px;
+}
+
+.site-tagline {
+    font-family: var(--font-type);
+    font-size: 1rem;
+    color: var(--gray);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+
+/* --- Titres de section --- */
+.section-title {
+    font-family: var(--font-title);
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 700;
+    color: var(--white);
+    text-align: center;
+    margin-bottom: 48px;
+    position: relative;
+    padding-bottom: 20px;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background: var(--red);
+}
+
+/* =============================================
+   SECTION 1 — Flip Cards (tueurs en série)
+   ============================================= */
+.dashboard {
+    padding: 80px 24px 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 32px;
+}
+
+.card-wrapper {
+    perspective: 1200px;
+    cursor: pointer;
+    position: relative;
+    height: 380px;
+    transition: z-index 0s;
+}
+
+.card-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.6s ease;
+    border-radius: 16px;
+}
+
+.card-wrapper.flipped {
+    z-index: 100;
+}
+
+.card-wrapper.flipped .card-inner {
+    transform: rotateY(180deg) scale(2);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8), 0 0 40px rgba(192, 57, 43, 0.5);
+}
+
+.card-front,
+.card-back {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 16px;
+    padding: 24px;
+    text-align: center;
+}
+
+.card-front {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card-front:hover {
+    border-color: var(--red);
+    box-shadow: 0 0 20px rgba(192, 57, 43, 0.3);
+}
+
+.card-back {
+    background: #180808;
+    border: 1px solid var(--red);
+    transform: rotateY(180deg);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+}
+
+.card-back h3 {
+    font-family: var(--font-title);
+    font-size: 1.2rem;
+    color: var(--gold);
+    margin-bottom: 8px;
+}
+
+.card-back p {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    color: var(--white);
+    line-height: 1.7;
+    font-style: italic;
+}
+
+.card-back-hint {
+    font-family: var(--font-type);
+    font-size: 0.7rem;
+    color: var(--red);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: auto;
+    opacity: 0.7;
+}
+
+.card-img {
+    width: 100%;
+    flex: 1;
+    object-fit: cover;
+    object-position: top;
+    border-radius: 10px;
+    margin: 12px 0;
+    filter: grayscale(20%) contrast(1.1);
+    transition: filter 0.3s ease;
+    min-height: 0;
+}
+
+.card-front h3 {
+    font-family: var(--font-title);
+    font-size: 1.3rem;
+    color: var(--gold);
+    margin-bottom: 8px;
+    line-height: 1.2;
+}
+
+.card-surnom {
+    font-family: var(--font-type);
+    font-size: 0.85rem;
+    color: var(--gray);
+    font-style: italic;
+    letter-spacing: 0.05em;
+}
+
+.card-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    z-index: 50;
+    backdrop-filter: blur(3px);
+}
+
+.card-overlay.active {
+    display: block;
+}
+
+/* =============================================
+   SECTION 2 — Tueurs notables
+   ============================================= */
+.section-notable {
+    padding: 80px 24px;
+    max-width: 1000px;
+    margin: 0 auto;
+    border-top: 1px solid var(--border);
+}
+
+.notable-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 28px;
+    margin-top: 0;
+}
+
+.notable-card {
+    background: var(--bg-card-2);
+    border-left: 3px solid var(--red);
+    border-radius: 0 12px 12px 0;
+    padding: 28px 24px;
+    transition: background 0.25s ease, transform 0.25s ease;
+    cursor: pointer;
+}
+
+.notable-card:hover {
+    background: #1e1010;
+    transform: translateX(6px);
+}
+
+.notable-number {
+    display: block;
+    font-family: var(--font-type);
+    font-size: 0.75rem;
+    color: var(--red);
+    letter-spacing: 0.2em;
+    margin-bottom: 10px;
+}
+
+.notable-card h3 {
+    font-family: var(--font-title);
+    font-size: 1.4rem;
+    color: var(--gold);
+    margin-bottom: 10px;
+}
+
+.notable-card p {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    color: var(--gray);
+    line-height: 1.6;
+    font-style: italic;
+}
+
+/* =============================================
+   SECTION 3 — Youtubeurs
+   ============================================= */
+.section-youtube {
+    padding: 80px 24px;
+    max-width: 1000px;
+    margin: 0 auto;
+    border-top: 1px solid var(--border);
+    text-align: center;
+}
+
+.section-intro {
+    font-family: var(--font-type);
+    font-size: 1rem;
+    color: var(--gray);
+    letter-spacing: 0.08em;
+    margin-bottom: 40px;
+}
+
+/* --- Footer --- */
+.footer {
+    text-align: center;
+    padding: 32px 24px;
+    border-top: 1px solid var(--border);
+    font-family: var(--font-type);
+    font-size: 0.8rem;
+    color: var(--gray-light);
+    letter-spacing: 0.1em;
+}
+
+/* =============================================
+   RESPONSIVE
+   ============================================= */
+@media (max-width: 600px) {
+    .dashboard-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+
+    .notable-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-card {
+        padding: 16px;
+    }
+}
